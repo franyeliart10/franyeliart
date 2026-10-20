@@ -50,4 +50,41 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.toggle('active');
         });
     });
+
+    // 4. Formulario de Contacto -> Redirección a WhatsApp
+    const contactForm = document.querySelector('form');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Tu número de WhatsApp (código de país + número sin espacios ni signos)
+            const phoneNumber = '584129000510';
+
+            // Obtener los valores de los campos del formulario
+            const nameInput = contactForm.querySelector('input[type="text"], input[name="name"]');
+            const eventInput = contactForm.querySelector('select, input[name="event"]');
+            const dateInput = contactForm.querySelector('input[type="date"], input[name="date"]');
+            const messageInput = contactForm.querySelector('textarea, input[name="message"]');
+
+            const name = nameInput ? nameInput.value.trim() : '';
+            const event = eventInput ? eventInput.value.trim() : '';
+            const date = dateInput ? dateInput.value.trim() : '';
+            const message = messageInput ? messageInput.value.trim() : '';
+
+            // Construir el mensaje personalizado
+            let text = `¡Hola Franyeli! 👋🏻\n\n`;
+            if (name) text += `*Nombre:* ${name}\n`;
+            if (event) text += `*Tipo de evento:* ${event}\n`;
+            if (date) text += `*Fecha del evento:* ${date}\n`;
+            if (message) text += `*Mensaje / Detalles:* ${message}\n\n`;
+            text += `Me gustaría recibir información para cotizar mi invitación con Franyeli A.R.T.✨`;
+
+            // Crear el enlace seguro a WhatsApp
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
+
+            // Abrir WhatsApp en una nueva pestaña
+            window.open(whatsappUrl, '_blank');
+        });
+    }
 });
